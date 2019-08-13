@@ -1,0 +1,4 @@
+Bundle-Name: getRoomList
+Bundle-SymbolicName: com.consistent.service
+Bundle-Version: 1.0.0
+Liferay-Configuration-Path: /configuration
