@@ -1,5 +1,5 @@
 package com.consistent.liferay.portal;
 
-public class Portal {
-
+public abstract class Portal {
+	
 }
