@@ -2,6 +2,7 @@ package com.consistent.service.application;
 
 import com.consistent.liferay.portal.Portal;
 import com.consistent.singleton.SingletonRest;
+import com.liferay.portal.kernel.exception.PortalException;
 
 import java.util.Collections;
 import java.util.Set;
@@ -36,6 +37,7 @@ public class ServiceRoomListApplication extends Application {
 	 * @param brandcode
 	 * @param hotelcode
 	 * @return devuelve el xml de habitaciones
+	 * @throws PortalException 
 	 */
 
 	@GET
@@ -46,7 +48,7 @@ public class ServiceRoomListApplication extends Application {
 		@QueryParam("language") String language,
 		@QueryParam("channel") String channel,
 		@QueryParam("brandcode") String brandcode,
-		@QueryParam("hotelcode") String hotelcode) {
+		@QueryParam("hotelcode") String hotelcode) throws PortalException {
 		
 		//Asignando variables
 		SingletonRest rest = SingletonRest.getInstance();
@@ -55,7 +57,7 @@ public class ServiceRoomListApplication extends Application {
 		rest.channel = channel;
 		rest.brandcode = brandcode;
 		rest.hotelcode = hotelcode;
-		Portal.getFolderIdBrand();
+		Portal.getRoomsForBrand();
 		return "";
 	}
 
