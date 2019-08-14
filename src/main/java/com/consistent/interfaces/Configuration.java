@@ -14,5 +14,6 @@ public interface Configuration {
 	@Meta.AD(required = false, description = "Get Folder Parent Name", deflt="0")
 	public String getFolderParent();
 	
-	
+	@Meta.AD(required = false, description = "Get Room StructureId", deflt="0")
+	public Long getRoomStructureId();
 }

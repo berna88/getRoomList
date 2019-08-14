@@ -23,12 +23,12 @@ public class ConfigurationImpl{
 	
 	private static final Log log = LogFactoryUtil.getLog(ConfigurationImpl.class);
 	public static String parentFolder = "";
+	public static Long roomStructureId = null;
 	
 	/**
 	 * @author bernardohernandez
 	 * @param properties
 	 */
-
 	@Activate
 	@Modified
 	private void activate(Map<String, Object> properties) {
@@ -36,10 +36,15 @@ public class ConfigurationImpl{
 		try {
 			if (configuration != null) {
 				if (!configuration.getFolderParent().isEmpty()) {
-					log.info("Name folder parent: " + configuration.getFolderParent());
+					log.info("Nombre de carpeta Hotel: " + configuration.getFolderParent());
 					parentFolder = configuration.getFolderParent();
-				} else {
-
+				} 
+				
+				if (configuration.getRoomStructureId() == 0) {
+					log.info("No se colocado el identificador de la estructura Habitación");
+				}else {
+					log.info("EstrutureId Room: " + configuration.getRoomStructureId());
+					roomStructureId = configuration.getRoomStructureId();
 				}
 			} else {
 				log.info("The sample DXP REST config object is not yet initialized");
