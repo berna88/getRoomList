@@ -7,6 +7,7 @@ import com.consistent.singleton.SingletonRest;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.impl.JournalArticleImpl;
 import com.liferay.journal.model.impl.JournalFolderImpl;
 import com.liferay.journal.service.JournalArticleResourceLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -71,10 +72,11 @@ public abstract class Portal implements Constants{
 		DDMStructure results = DDMStructureLocalServiceUtil.getStructure(ConfigurationImpl.roomStructureId);
 		results.getStructureKey();
 		try {
-			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalFolderImpl.class, "Journal",PortalClassLoaderUtil.getClassLoader());
+			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalArticleImpl.class, "Journal",PortalClassLoaderUtil.getClassLoader());
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(GROUPID,rest.getSiteIDLong()));
 			dynamicQuery.add(RestrictionsFactoryUtil.like(TREEPATH, "%"+getFolderIdBrand()+"%"));
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(DDMSTRUCTUREKEY, results.getStructureKey()));
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("version", 1.0));
 			articles = JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery);
 			log.info("Tamaño de articulos: "+articles.size());
 		}catch (Exception e) {
