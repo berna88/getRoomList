@@ -67,14 +67,58 @@ public abstract class Portal implements Constants{
 		return folderId;
 	}
 	
+	/**
+	 * @author bernardohernandez
+	 * @return devuelve el identificador
+	 */
+	
+	public static Long getFolderIdCodeHotel() {
+		Long folderId = null;
+		try {
+			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalFolderImpl.class,"Folder",PortalClassLoaderUtil.getClassLoader());
+			dynamicQuery.add(RestrictionsFactoryUtil.eq(NAME, rest.hotelcode));
+			dynamicQuery.add(RestrictionsFactoryUtil.eq(GROUPID, rest.getSiteIDLong()));
+			List<JournalFolderImpl> listFolder = JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery);
+			folderId = listFolder.get(0).getFolderId();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return folderId;
+	}
+	
+	
+	/**
+	 * @author bernardohernandez
+	 * @return
+	 * @throws PortalException
+	 */
+	
 	public static List<JournalArticle> getRoomsForBrand() throws PortalException{
 		List<JournalArticle> articles = new ArrayList<JournalArticle>();
 		DDMStructure results = DDMStructureLocalServiceUtil.getStructure(ConfigurationImpl.roomStructureId);
-		results.getStructureKey();
 		try {
 			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalArticleImpl.class, "Journal",PortalClassLoaderUtil.getClassLoader());
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(GROUPID,rest.getSiteIDLong()));
 			dynamicQuery.add(RestrictionsFactoryUtil.like(TREEPATH, "%"+getFolderIdBrand()+"%"));
+			dynamicQuery.add(RestrictionsFactoryUtil.eq(DDMSTRUCTUREKEY, results.getStructureKey()));
+			dynamicQuery.add(RestrictionsFactoryUtil.eq("version", 1.0));
+			articles = JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery);
+			log.info("Tamaño de articulos: "+articles.size());
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error en metodo getRoomsForBrand");
+			e.fillInStackTrace();
+		}
+		return articles;
+	}
+	
+	public static List<JournalArticle> getRoomsForCodeHotel() throws PortalException{
+		List<JournalArticle> articles = new ArrayList<JournalArticle>();
+		DDMStructure results = DDMStructureLocalServiceUtil.getStructure(ConfigurationImpl.roomStructureId);
+		try {
+			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalArticleImpl.class, "Journal",PortalClassLoaderUtil.getClassLoader());
+			dynamicQuery.add(RestrictionsFactoryUtil.eq(GROUPID,rest.getSiteIDLong()));
+			dynamicQuery.add(RestrictionsFactoryUtil.like(TREEPATH, "%"+getFolderIdCodeHotel()+"%"));
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(DDMSTRUCTUREKEY, results.getStructureKey()));
 			dynamicQuery.add(RestrictionsFactoryUtil.eq("version", 1.0));
 			articles = JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery);

@@ -57,7 +57,7 @@ public class ServiceRoomListApplication extends Application {
 		rest.channel = channel;
 		rest.brandcode = brandcode;
 		rest.hotelcode = hotelcode;
-		Portal.getRoomsForBrand();
+		Portal.getRoomsForCodeHotel();
 		return "";
 	}
 
