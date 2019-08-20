@@ -4,6 +4,8 @@ import com.consistent.interfaces.Constants;
 import com.consistent.interfaces.XML;
 import com.consistent.liferay.portal.Portal;
 import com.consistent.singleton.SingletonRest;
+import com.liferay.asset.kernel.model.AssetTag;
+import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.impl.JournalArticleImpl;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
@@ -43,10 +45,11 @@ public class Room extends Portal implements XML, Constants{
 	private String description;
 	private String order = ORDER;
 	private String channel = CHANNEL;
+	private String tags;
 	private List<String> medialinks;
 	
 	public Room() {
-		
+		tags = "";
 		guid = "";
 		code = "";
 		name = "";
@@ -297,6 +300,7 @@ public class Room extends Portal implements XML, Constants{
 		         xMLStreamWriter.writeStartElement("medialink");
 		         
 				   xMLStreamWriter.writeStartElement("keyword");
+				   	xMLStreamWriter.writeCharacters(tags);
 				   xMLStreamWriter.writeEndElement();
 				         for (int i = 0; i < ArrayMediaLinks.length(); i++) {
 								JSONObject jsonobject = ArrayMediaLinks.getJSONObject(i);
@@ -346,7 +350,7 @@ public class Room extends Portal implements XML, Constants{
 	}
 	
 	private String parseRooms(JournalArticle article) throws DocumentException, XMLStreamException, IOException {
-		Room room = new Room();
+		final Room room = new Room();
 		String locale = rest.getLanguaje();
 		room.guid = article.getArticleId();
 		room.title = article.getTitle(locale);
@@ -357,6 +361,14 @@ public class Room extends Portal implements XML, Constants{
 		room.keyword = document.valueOf("//dynamic-element[@name='keywordsRoom']/dynamic-content/text()");
 		room.description = document.valueOf("//dynamic-element[@name='descriptionRoom']/dynamic-content/text()");
 		room.shortDescription = document.valueOf("//dynamic-element[@name='shortDescriptionRoom']/dynamic-content/text()");
+		final List<AssetTag> tags = AssetTagLocalServiceUtil.getTags(JournalArticle.class.getName(), article.getResourcePrimKey());
+		String tag = "";
+		if(!tags.isEmpty()) {
+			for(AssetTag categoryRecovery : tags) {
+				tag = tag.concat(categoryRecovery.getName());
+			}
+		}
+		room.tags = tag;
 		//medialinks
 		List<Node> mediaNodes = document.selectNodes("//dynamic-element[@name='mediaLinksRoom']/dynamic-element");
 		List<String> mediaArray = new ArrayList<String>();
