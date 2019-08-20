@@ -7,10 +7,15 @@ import com.consistent.singleton.SingletonRest;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.impl.JournalArticleImpl;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.DocumentException;
+import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
 import java.io.IOException;
@@ -272,6 +277,47 @@ public class Room extends Portal implements XML, Constants{
 			xMLStreamWriter.writeStartElement("channel");
 				xMLStreamWriter.writeCharacters(CHANNEL);
 			xMLStreamWriter.writeEndElement();
+			
+			//mediaLink section
+			/*mediaLink section*/
+	         JSONArray ArrayMediaLinks = JSONFactoryUtil.createJSONArray();
+	         List<String> MeliaLinkList = getMedialinks();
+				for (String mediaLinkItem : MeliaLinkList) {
+					JSONObject myObject;
+					try {
+						
+						myObject = JSONFactoryUtil.createJSONObject(mediaLinkItem);
+						ArrayMediaLinks.put(myObject);
+					} catch (JSONException e) {
+						log.error("Error converter json"+e);
+					}
+					
+				}
+				xMLStreamWriter.writeStartElement("medialinks");		   
+		         xMLStreamWriter.writeStartElement("medialink");
+		         
+				   xMLStreamWriter.writeStartElement("keyword");
+				   xMLStreamWriter.writeEndElement();
+				         for (int i = 0; i < ArrayMediaLinks.length(); i++) {
+								JSONObject jsonobject = ArrayMediaLinks.getJSONObject(i);
+							    String link = jsonobject.getString("link");
+							    String type_image = jsonobject.getString("type_image");
+								xMLStreamWriter.writeStartElement("multimedia");
+					            xMLStreamWriter.writeAttribute("type",type_image);
+						        xMLStreamWriter.writeStartElement("url");
+						        xMLStreamWriter.writeCharacters(link);
+						        xMLStreamWriter.writeEndElement();
+					            xMLStreamWriter.writeEndElement();
+							}
+				         xMLStreamWriter.writeStartElement("thumbnail");
+				         xMLStreamWriter.writeEndElement();
+				         xMLStreamWriter.writeStartElement("type");
+				         xMLStreamWriter.writeEndElement();
+			      xMLStreamWriter.writeEndElement();
+	         xMLStreamWriter.writeEndElement();
+	          //mediaLink section
+			
+			
 		xMLStreamWriter.writeEndElement();
 		
 		xMLStreamWriter.flush();
@@ -311,8 +357,34 @@ public class Room extends Portal implements XML, Constants{
 		room.keyword = document.valueOf("//dynamic-element[@name='keywordsRoom']/dynamic-content/text()");
 		room.description = document.valueOf("//dynamic-element[@name='descriptionRoom']/dynamic-content/text()");
 		room.shortDescription = document.valueOf("//dynamic-element[@name='shortDescriptionRoom']/dynamic-content/text()");
+		//medialinks
+		List<Node> mediaNodes = document.selectNodes("//dynamic-element[@name='mediaLinksRoom']/dynamic-element");
+		List<String> mediaArray = new ArrayList<String>();
+		for (Node mediaNode : mediaNodes) {
+			String pie = mediaNode.valueOf("dynamic-element[@name='footer']/dynamic-content/text()");
+			String link = mediaNode.valueOf("dynamic-content/text()");
+			String type_image = mediaNode.valueOf("dynamic-element[@name='typeRoom']/dynamic-content/text()");
+			if(!link.trim().equals("")){
+				JSONObject object = JSONFactoryUtil.createJSONObject();
+				object.put("link", link);
+				object.put("pie", pie);
+				object.put("type_image", type_image);
+				mediaArray.add(object.toJSONString());
+			}
+		}
+		room.medialinks = sanitizeArray(mediaArray);
 		return room.getMapping();
 	}
+	private List<String> sanitizeArray(List<String> arraySan){
+    	if(arraySan.size()>0){
+	    	while(arraySan.size()<1){
+				JSONObject object=JSONFactoryUtil.createJSONObject();
+				arraySan.add(object.toJSONString());				
+			}
+    	}
+    	
+    	return arraySan;    	
+    }
 
 	@Override
 	public String getContent() throws XMLStreamException, IOException {
