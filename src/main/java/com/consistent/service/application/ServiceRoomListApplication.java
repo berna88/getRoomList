@@ -1,9 +1,11 @@
 package com.consistent.service.application;
 
-import com.consistent.liferay.portal.Portal;
+import com.consistent.interfaces.XML;
+import com.consistent.models.Room;
 import com.consistent.singleton.SingletonRest;
 import com.liferay.portal.kernel.exception.PortalException;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
+import javax.xml.stream.XMLStreamException;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -38,6 +41,8 @@ public class ServiceRoomListApplication extends Application {
 	 * @param hotelcode
 	 * @return devuelve el xml de habitaciones
 	 * @throws PortalException 
+	 * @throws IOException 
+	 * @throws XMLStreamException 
 	 */
 
 	@GET
@@ -48,7 +53,7 @@ public class ServiceRoomListApplication extends Application {
 		@QueryParam("language") String language,
 		@QueryParam("channel") String channel,
 		@QueryParam("brandcode") String brandcode,
-		@QueryParam("hotelcode") String hotelcode) throws PortalException {
+		@QueryParam("hotelcode") String hotelcode) throws PortalException, XMLStreamException, IOException {
 		
 		//Asignando variables
 		SingletonRest rest = SingletonRest.getInstance();
@@ -57,8 +62,8 @@ public class ServiceRoomListApplication extends Application {
 		rest.channel = channel;
 		rest.brandcode = brandcode;
 		rest.hotelcode = hotelcode;
-		Portal.getRoomsForCodeHotel();
-		return "";
+		XML xml = new Room();
+		return xml.getContent();
 	}
 
 }

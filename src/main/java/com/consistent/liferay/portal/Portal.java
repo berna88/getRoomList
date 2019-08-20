@@ -6,7 +6,6 @@ import com.consistent.liferay.configuration.ConfigurationImpl;
 import com.consistent.singleton.SingletonRest;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
-import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.impl.JournalArticleImpl;
 import com.liferay.journal.model.impl.JournalFolderImpl;
 import com.liferay.journal.service.JournalArticleResourceLocalServiceUtil;
@@ -18,7 +17,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class Portal implements Constants{
@@ -30,7 +29,7 @@ public abstract class Portal implements Constants{
 	 * @author bernardohernandez
 	 * @return devuelve el identificador de la carpeta Hotel
 	 */
-	public static Long getParentFolder() {
+	protected Long getParentFolder() {
 		Long folderId = null;
 		try {
 			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalFolderImpl.class,"Folder",PortalClassLoaderUtil.getClassLoader());
@@ -49,7 +48,7 @@ public abstract class Portal implements Constants{
 	 * @author bernardohernandez
 	 * @return devuelve el identificador de la carpeta de la marca
 	 */
-	public static Long getFolderIdBrand() {
+	protected Long getFolderIdBrand() {
 		Long folderId = null;
 		try {
 			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalFolderImpl.class,"Folder",PortalClassLoaderUtil.getClassLoader());
@@ -72,7 +71,7 @@ public abstract class Portal implements Constants{
 	 * @return devuelve el identificador
 	 */
 	
-	public static Long getFolderIdCodeHotel() {
+	protected Long getFolderIdCodeHotel() {
 		Long folderId = null;
 		try {
 			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalFolderImpl.class,"Folder",PortalClassLoaderUtil.getClassLoader());
@@ -93,16 +92,15 @@ public abstract class Portal implements Constants{
 	 * @throws PortalException
 	 */
 	
-	public static List<JournalArticle> getRoomsForBrand() throws PortalException{
-		List<JournalArticle> articles = new ArrayList<JournalArticle>();
+	protected HashSet<JournalArticleImpl> getRoomsForBrand() throws PortalException{
+		HashSet<JournalArticleImpl> articles = new HashSet<JournalArticleImpl>();
 		DDMStructure results = DDMStructureLocalServiceUtil.getStructure(ConfigurationImpl.roomStructureId);
 		try {
 			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalArticleImpl.class, "Journal",PortalClassLoaderUtil.getClassLoader());
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(GROUPID,rest.getSiteIDLong()));
 			dynamicQuery.add(RestrictionsFactoryUtil.like(TREEPATH, "%"+getFolderIdBrand()+"%"));
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(DDMSTRUCTUREKEY, results.getStructureKey()));
-			dynamicQuery.add(RestrictionsFactoryUtil.eq("version", 1.0));
-			articles = JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery);
+			articles = new HashSet<>(JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery));
 			log.info("Tamaño de articulos: "+articles.size());
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -112,21 +110,44 @@ public abstract class Portal implements Constants{
 		return articles;
 	}
 	
-	public static List<JournalArticle> getRoomsForCodeHotel() throws PortalException{
-		List<JournalArticle> articles = new ArrayList<JournalArticle>();
+	/**
+	 * @author bernardohernandez
+	 * @return Devuelve las habitaciones por codigo de hotel
+	 * @throws PortalException
+	 */
+	
+	protected HashSet<JournalArticleImpl> getRoomsForCodeHotel() throws PortalException{
+		HashSet<JournalArticleImpl> articles = new HashSet<JournalArticleImpl>();
 		DDMStructure results = DDMStructureLocalServiceUtil.getStructure(ConfigurationImpl.roomStructureId);
 		try {
 			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalArticleImpl.class, "Journal",PortalClassLoaderUtil.getClassLoader());
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(GROUPID,rest.getSiteIDLong()));
 			dynamicQuery.add(RestrictionsFactoryUtil.like(TREEPATH, "%"+getFolderIdCodeHotel()+"%"));
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(DDMSTRUCTUREKEY, results.getStructureKey()));
-			dynamicQuery.add(RestrictionsFactoryUtil.eq("version", 1.0));
-			articles = JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery);
+			articles = new HashSet<> (JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery));
 			log.info("Tamaño de articulos: "+articles.size());
 		}catch (Exception e) {
 			// TODO: handle exception
 			log.error("Error en metodo getRoomsForBrand");
 			e.fillInStackTrace();
+		}
+		return articles;
+	}
+	
+	protected HashSet<JournalArticleImpl> validBrandOrHotelCode() throws PortalException{
+		
+		HashSet<JournalArticleImpl> articles = new HashSet<JournalArticleImpl>();
+		
+		if (rest.brandcode != null && !rest.brandcode.isEmpty() ) {
+			articles = getRoomsForBrand();
+		}else if(rest.hotelcode != null && !rest.hotelcode.isEmpty()) {
+			articles = getRoomsForCodeHotel();
+		}else if(rest.brandcode == null || rest.hotelcode == null) {
+			log.info("Filtrado no valido");
+		}else if(rest.brandcode.isEmpty() && rest.hotelcode.isEmpty()) {
+			log.info("Filtrado no valido");
+		}else {
+			log.info("Filtrado no valido"+rest.hotelcode);
 		}
 		return articles;
 	}
