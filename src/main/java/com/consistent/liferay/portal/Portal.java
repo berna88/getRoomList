@@ -205,19 +205,14 @@ public abstract class Portal implements Constants{
 		HashSet<JournalArticleImpl> articles = new HashSet<JournalArticleImpl>();
 		
 		if ((rest.brandcode != null && !rest.brandcode.isEmpty()) && (rest.hotelcode == null || rest.hotelcode.isEmpty())) {
-			log.info("Primera validacion");
 			articles = getRoomsForBrand();
 		}else if((rest.hotelcode != null && !rest.hotelcode.isEmpty()) && (rest.brandcode == null || rest.brandcode.isEmpty())) {
-			log.info("Segunda validacion");
 			articles = getRoomsForCodeHotel();
 		}else if(rest.brandcode == null || rest.hotelcode == null) {
-			log.info("Tercera validacion");
 			log.info("Filtrado no valido");
 		}else if(rest.brandcode.isEmpty() && rest.hotelcode.isEmpty()) {
-			log.info("Cuarta Validacion validacion");
 			articles = getAllRooms();
 		}else if(!rest.brandcode.isEmpty() && !rest.hotelcode.isEmpty()) {
-			log.info("Quinta Validacion validacion");
 			articles = getHotelByBrand();
 		}else {
 			log.info("Filtrado no valido"+rest.hotelcode);
