@@ -134,6 +134,12 @@ public abstract class Portal implements Constants{
 		return articles;
 	}
 	
+	/**
+	 * @author bernardohernandez
+	 * @return Devuelve las habitaciones de todas las marcas
+	 * @throws PortalException
+	 */
+	
 	protected HashSet<JournalArticleImpl> getAllRooms() throws PortalException{
 		HashSet<JournalArticleImpl> articles = new HashSet<JournalArticleImpl>();
 		DDMStructure results = DDMStructureLocalServiceUtil.getStructure(ConfigurationImpl.roomStructureId);
@@ -151,19 +157,68 @@ public abstract class Portal implements Constants{
 		}
 		return articles;
 	}
+	/**
+	 * @author bernardohernandez
+	 * @return Devuelve el identificador del codigo del hotel
+	 */
+	
+	protected Long getFolderIdCodeHotelbyBrand() {
+		Long folderId = null;
+		try {
+			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalFolderImpl.class,"Folder",PortalClassLoaderUtil.getClassLoader());
+			dynamicQuery.add(RestrictionsFactoryUtil.eq(NAME, rest.hotelcode));
+			dynamicQuery.add(RestrictionsFactoryUtil.eq(GROUPID, rest.getSiteIDLong()));
+			dynamicQuery.add(RestrictionsFactoryUtil.eq(PARENTFOLDERID, getFolderIdBrand()));
+			List<JournalFolderImpl> listFolder = JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery);
+			folderId = listFolder.get(0).getFolderId();
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error en el metodo getFolderIdCodeHotelbyBrand");
+			e.fillInStackTrace();
+		}
+		return folderId;
+	}
+	
+	
+	protected HashSet<JournalArticleImpl> getHotelByBrand() throws PortalException{
+		HashSet<JournalArticleImpl> articles = new HashSet<JournalArticleImpl>();
+		DDMStructure results = DDMStructureLocalServiceUtil.getStructure(ConfigurationImpl.roomStructureId);
+		try {
+			DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(JournalArticleImpl.class, "Journal",PortalClassLoaderUtil.getClassLoader());
+			dynamicQuery.add(RestrictionsFactoryUtil.eq(GROUPID,rest.getSiteIDLong()));
+			dynamicQuery.add(RestrictionsFactoryUtil.like(TREEPATH, "%"+getFolderIdCodeHotelbyBrand()+"%"));
+			dynamicQuery.add(RestrictionsFactoryUtil.eq(DDMSTRUCTUREKEY, results.getStructureKey()));
+			articles = new HashSet<>(JournalArticleResourceLocalServiceUtil.dynamicQuery(dynamicQuery));
+			log.info("Tamaño de articulos: "+articles.size());
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error en metodo getRoomsForBrand");
+			e.fillInStackTrace();
+		}
+		return articles;
+	}
+	
+	
 	
 	protected HashSet<JournalArticleImpl> validBrandOrHotelCode() throws PortalException{
 		
 		HashSet<JournalArticleImpl> articles = new HashSet<JournalArticleImpl>();
 		
-		if (rest.brandcode != null && !rest.brandcode.isEmpty() ) {
+		if ((rest.brandcode != null && !rest.brandcode.isEmpty()) && (rest.hotelcode == null || rest.hotelcode.isEmpty())) {
+			log.info("Primera validacion");
 			articles = getRoomsForBrand();
-		}else if(rest.hotelcode != null && !rest.hotelcode.isEmpty()) {
+		}else if((rest.hotelcode != null && !rest.hotelcode.isEmpty()) && (rest.brandcode == null || rest.brandcode.isEmpty())) {
+			log.info("Segunda validacion");
 			articles = getRoomsForCodeHotel();
 		}else if(rest.brandcode == null || rest.hotelcode == null) {
+			log.info("Tercera validacion");
 			log.info("Filtrado no valido");
 		}else if(rest.brandcode.isEmpty() && rest.hotelcode.isEmpty()) {
+			log.info("Cuarta Validacion validacion");
 			articles = getAllRooms();
+		}else if(!rest.brandcode.isEmpty() && !rest.hotelcode.isEmpty()) {
+			log.info("Quinta Validacion validacion");
+			articles = getHotelByBrand();
 		}else {
 			log.info("Filtrado no valido"+rest.hotelcode);
 		}
