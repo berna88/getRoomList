@@ -46,6 +46,9 @@ public class Room extends Portal implements XML, Constants{
 	private String order = ORDER;
 	private String channel = CHANNEL;
 	private String tags;
+	private String totalCapacity;
+	private String childCapacity;
+	private String adultCapacity;
 	private List<String> medialinks;
 	
 	public Room() {
@@ -60,6 +63,9 @@ public class Room extends Portal implements XML, Constants{
 		description = "";
 		order = ORDER;
 		channel = CHANNEL;
+		totalCapacity = "";
+		childCapacity = "";
+		adultCapacity = "";
 		medialinks = new ArrayList<String>(); 
 	}
 	
@@ -79,7 +85,39 @@ public class Room extends Portal implements XML, Constants{
 		this.medialinks = medialinks;
 	}
 
+	
 
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public String getTotalCapacity() {
+		return totalCapacity;
+	}
+
+	public void setTotalCapacity(String totalCapacity) {
+		this.totalCapacity = totalCapacity;
+	}
+
+	public String getChildCapacity() {
+		return childCapacity;
+	}
+
+	public void setChildCapacity(String childCapacity) {
+		this.childCapacity = childCapacity;
+	}
+
+	public String getAdultCapacity() {
+		return adultCapacity;
+	}
+
+	public void setAdultCapacity(String adultCapacity) {
+		this.adultCapacity = adultCapacity;
+	}
 
 	public String getGuid() {
 		return guid;
@@ -361,6 +399,11 @@ public class Room extends Portal implements XML, Constants{
 		room.keyword = document.valueOf("//dynamic-element[@name='keywordsRoom']/dynamic-content/text()");
 		room.description = document.valueOf("//dynamic-element[@name='descriptionRoom']/dynamic-content/text()");
 		room.shortDescription = document.valueOf("//dynamic-element[@name='shortDescriptionRoom']/dynamic-content/text()");
+		room.totalCapacity = document.valueOf("//dynamic-element[@name='totalCapacityRoom']/dynamic-content/text()").replace("\"", "").replace("[", "").replace("]", "");
+		room.childCapacity = document.valueOf("//dynamic-element[@name='childCapacityRoom']/dynamic-content/text()");
+		room.adultCapacity = document.valueOf("//dynamic-element[@name='adultCapacityRoom']/dynamic-content/text()");
+		
+		
 		final List<AssetTag> tags = AssetTagLocalServiceUtil.getTags(JournalArticle.class.getName(), article.getResourcePrimKey());
 		String tag = "";
 		if(!tags.isEmpty()) {
