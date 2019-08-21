@@ -49,6 +49,39 @@ public class Room extends Portal implements XML, Constants{
 	private String totalCapacity;
 	private String childCapacity;
 	private String adultCapacity;
+	private String dimensions;
+	private String inventory;
+	private String numberOfBeds;
+	private String standard;
+	private String suite;
+	private String HighLightValue;
+	private String HighLightText;
+	private String kingSizeBed;
+	private String twinSizeBed;
+	private String queenSizeBed;
+	private String doubleBed;
+	private String wifi;
+	private String coffeeMaker;
+	private String iron;
+	private String ironBoard;
+	private String tv;
+	private String desk;
+	private String minibar;
+	private String livingRoom;
+	private String bathtub;
+	private String shower;
+	private String featherPillow;
+	private String syntheticPillow;
+	private String securityBox;
+	private String closet;
+	private String iPodStation;
+	private String airConditioner;
+	private String heating;
+	private String phone;
+	private String bathrobe;
+	private String hairdryer;
+	private String slippers;
+	private String other;
 	private List<String> medialinks;
 	
 	public Room() {
@@ -66,6 +99,39 @@ public class Room extends Portal implements XML, Constants{
 		totalCapacity = "";
 		childCapacity = "";
 		adultCapacity = "";
+		dimensions = "";
+		inventory = "";
+		numberOfBeds = "";
+		standard = "";
+		suite = "";
+		HighLightValue = "";
+		HighLightText = "";
+		kingSizeBed = "";
+		twinSizeBed = "";
+		queenSizeBed = "";
+		doubleBed = "";
+		wifi = "";
+		coffeeMaker = "";
+		iron = "";
+		ironBoard = "";
+		tv = "";
+		desk = "";
+		minibar = "";
+		livingRoom = "";
+		bathtub = "";
+		shower = "";
+		featherPillow="";
+		syntheticPillow="";
+		securityBox="";
+		closet="";
+		iPodStation="";
+		airConditioner="";
+		heating ="";
+		phone ="";
+		bathrobe = "";
+		hairdryer = "";
+		slippers = "";
+		other = "";
 		medialinks = new ArrayList<String>(); 
 	}
 	
@@ -86,6 +152,270 @@ public class Room extends Portal implements XML, Constants{
 	}
 
 	
+	
+	public String getOther() {
+		return other;
+	}
+
+	public void setOther(String other) {
+		this.other = other;
+	}
+
+	public String getStandard() {
+		return standard;
+	}
+
+	public void setStandard(String standard) {
+		this.standard = standard;
+	}
+
+	public String getSuite() {
+		return suite;
+	}
+
+	public void setSuite(String suite) {
+		this.suite = suite;
+	}
+
+	public String getHighLightValue() {
+		return HighLightValue;
+	}
+
+	public void setHighLightValue(String highLightValue) {
+		HighLightValue = highLightValue;
+	}
+
+	public String getHighLightText() {
+		return HighLightText;
+	}
+
+	public void setHighLightText(String highLightText) {
+		HighLightText = highLightText;
+	}
+
+	public String getKingSizeBed() {
+		return kingSizeBed;
+	}
+
+	public void setKingSizeBed(String kingSizeBed) {
+		this.kingSizeBed = kingSizeBed;
+	}
+
+	public String getTwinSizeBed() {
+		return twinSizeBed;
+	}
+
+	public void setTwinSizeBed(String twinSizeBed) {
+		this.twinSizeBed = twinSizeBed;
+	}
+
+	public String getQueenSizeBed() {
+		return queenSizeBed;
+	}
+
+	public void setQueenSizeBed(String queenSizeBed) {
+		this.queenSizeBed = queenSizeBed;
+	}
+
+	public String getDoubleBed() {
+		return doubleBed;
+	}
+
+	public void setDoubleBed(String doubleBed) {
+		this.doubleBed = doubleBed;
+	}
+
+	public String getWifi() {
+		return wifi;
+	}
+
+	public void setWifi(String wifi) {
+		this.wifi = wifi;
+	}
+
+	public String getCoffeeMaker() {
+		return coffeeMaker;
+	}
+
+	public void setCoffeeMaker(String coffeeMaker) {
+		this.coffeeMaker = coffeeMaker;
+	}
+
+	public String getIron() {
+		return iron;
+	}
+
+	public void setIron(String iron) {
+		this.iron = iron;
+	}
+
+	public String getIronBoard() {
+		return ironBoard;
+	}
+
+	public void setIronBoard(String ironBoard) {
+		this.ironBoard = ironBoard;
+	}
+
+	public String getTv() {
+		return tv;
+	}
+
+	public void setTv(String tv) {
+		this.tv = tv;
+	}
+
+	public String getDesk() {
+		return desk;
+	}
+
+	public void setDesk(String desk) {
+		this.desk = desk;
+	}
+
+	public String getMinibar() {
+		return minibar;
+	}
+
+	public void setMinibar(String minibar) {
+		this.minibar = minibar;
+	}
+
+	public String getLivingRoom() {
+		return livingRoom;
+	}
+
+	public void setLivingRoom(String livingRoom) {
+		this.livingRoom = livingRoom;
+	}
+
+	public String getBathtub() {
+		return bathtub;
+	}
+
+	public void setBathtub(String bathtub) {
+		this.bathtub = bathtub;
+	}
+
+	public String getShower() {
+		return shower;
+	}
+
+	public void setShower(String shower) {
+		this.shower = shower;
+	}
+
+	public String getFeatherPillow() {
+		return featherPillow;
+	}
+
+	public void setFeatherPillow(String featherPillow) {
+		this.featherPillow = featherPillow;
+	}
+
+	public String getSyntheticPillow() {
+		return syntheticPillow;
+	}
+
+	public void setSyntheticPillow(String syntheticPillow) {
+		this.syntheticPillow = syntheticPillow;
+	}
+
+	public String getSecurityBox() {
+		return securityBox;
+	}
+
+	public void setSecurityBox(String securityBox) {
+		this.securityBox = securityBox;
+	}
+
+	public String getCloset() {
+		return closet;
+	}
+
+	public void setCloset(String closet) {
+		this.closet = closet;
+	}
+
+	public String getiPodStation() {
+		return iPodStation;
+	}
+
+	public void setiPodStation(String iPodStation) {
+		this.iPodStation = iPodStation;
+	}
+
+	public String getAirConditioner() {
+		return airConditioner;
+	}
+
+	public void setAirConditioner(String airConditioner) {
+		this.airConditioner = airConditioner;
+	}
+
+	public String getHeating() {
+		return heating;
+	}
+
+	public void setHeating(String heating) {
+		this.heating = heating;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getBathrobe() {
+		return bathrobe;
+	}
+
+	public void setBathrobe(String bathrobe) {
+		this.bathrobe = bathrobe;
+	}
+
+	public String getHairdryer() {
+		return hairdryer;
+	}
+
+	public void setHairdryer(String hairdryer) {
+		this.hairdryer = hairdryer;
+	}
+
+	public String getSlippers() {
+		return slippers;
+	}
+
+	public void setSlippers(String slippers) {
+		this.slippers = slippers;
+	}
+
+	public String getDimensions() {
+		return dimensions;
+	}
+
+	public void setDimensions(String dimensions) {
+		this.dimensions = dimensions;
+	}
+
+	public String getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(String inventory) {
+		this.inventory = inventory;
+	}
+
+	public String getNumberOfBeds() {
+		return numberOfBeds;
+	}
+
+	public void setNumberOfBeds(String numberOfBeds) {
+		this.numberOfBeds = numberOfBeds;
+	}
 
 	public String getTags() {
 		return tags;
@@ -441,8 +771,39 @@ public class Room extends Portal implements XML, Constants{
 		room.totalCapacity = document.valueOf("//dynamic-element[@name='totalCapacityRoom']/dynamic-content/text()").replace("\"", "").replace("[", "").replace("]", "");
 		room.childCapacity = document.valueOf("//dynamic-element[@name='childCapacityRoom']/dynamic-content/text()");
 		room.adultCapacity = document.valueOf("//dynamic-element[@name='adultCapacityRoom']/dynamic-content/text()");
-		
-		
+		room.dimensions = document.valueOf("//dynamic-element[@name='dimensionsRoom']/dynamic-content/text()");
+		room.inventory = document.valueOf("//dynamic-element[@name='inventaryRoom']/dynamic-content/text()");
+		room.numberOfBeds = document.valueOf("//dynamic-element[@name='Dimensiones4gg5']/dynamic-content/text()");
+		room.standard = document.valueOf("//dynamic-element[@name='standardRoom']/dynamic-content/text()");
+		room.suite = document.valueOf("//dynamic-element[@name='suiteRoom']/dynamic-content/text()");
+		room.HighLightValue = document.valueOf("//dynamic-element[@name='highLightValueRoom']/dynamic-content/text()");
+		room.HighLightText = document.valueOf("//dynamic-element[@name='highLightTextRoom']/dynamic-content/text()");
+		room.kingSizeBed = document.valueOf("//dynamic-element[@name='Wifi5ogh']/dynamic-content/text()");
+		room.twinSizeBed = document.valueOf("//dynamic-element[@name='Wifiru3r']/dynamic-content/text()");
+		room.queenSizeBed = document.valueOf("//dynamic-element[@name='Wifi58wf']/dynamic-content/text()");
+		room.doubleBed = document.valueOf("//dynamic-element[@name='CamaQueenSize2nci']/dynamic-content/text()");
+		room.wifi = document.valueOf("//dynamic-element[@name='wifiRoom']/dynamic-content/text()");
+		room.coffeeMaker = document.valueOf("//dynamic-element[@name='coffeeMarkerRoom']/dynamic-content/text()");
+		room.iron = document.valueOf("//dynamic-element[@name='ironRoom']/dynamic-content/text()");
+		room.ironBoard = document.valueOf("//dynamic-element[@name='ironBoardRoom']/dynamic-content/text()");
+		room.tv = document.valueOf("//dynamic-element[@name='tvRoom']/dynamic-content/text()");
+		room.desk = document.valueOf("//dynamic-element[@name='deskRoom']/dynamic-content/text()");
+		room.minibar = document.valueOf("//dynamic-element[@name='minibarRoom']/dynamic-content/text()");
+		room.livingRoom = document.valueOf("//dynamic-element[@name='livingRoom']/dynamic-content/text()");
+		room.bathtub = document.valueOf("//dynamic-element[@name='bathtubRoom']/dynamic-content/text()");
+		room.shower = document.valueOf("//dynamic-element[@name='showerRoom']/dynamic-content/text()");
+		room.featherPillow = document.valueOf("//dynamic-element[@name='AlmohadaDePlumas']/dynamic-content/text()");
+		room.syntheticPillow = document.valueOf("//dynamic-element[@name='AlmohadaDePlumas9wgm']/dynamic-content/text()");
+		room.securityBox = document.valueOf("//dynamic-element[@name='securityBoxRoom']/dynamic-content/text()");
+		room.closet = document.valueOf("//dynamic-element[@name='closetRoom']/dynamic-content/text()");
+		room.iPodStation = document.valueOf("//dynamic-element[@name='ipodStationRoom']/dynamic-content/text()");
+		room.airConditioner = document.valueOf("//dynamic-element[@name='airConditionerRoom']/dynamic-content/text()");
+		room.heating = document.valueOf("//dynamic-element[@name='heatingRoom']/dynamic-content/text()");
+		room.phone = document.valueOf("//dynamic-element[@name='phoneRoom']/dynamic-content/text()");
+		room.bathrobe = document.valueOf("//dynamic-element[@name='bathrobeRoom']/dynamic-content/text()");
+		room.hairdryer = document.valueOf("//dynamic-element[@name='dryerRoom']/dynamic-content/text()");
+		room.slippers = document.valueOf("//dynamic-element[@name='slippersRoom']/dynamic-content/text()");
+		room.other = document.valueOf("//dynamic-element[@name='otherRoom']/dynamic-content/text()");
 		final List<AssetTag> tags = AssetTagLocalServiceUtil.getTags(JournalArticle.class.getName(), article.getResourcePrimKey());
 		String tag = "";
 		if(!tags.isEmpty()) {
