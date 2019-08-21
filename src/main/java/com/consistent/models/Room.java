@@ -307,10 +307,10 @@ public class Room extends Portal implements XML, Constants{
 				xMLStreamWriter.writeCharacters(keyword);
 			xMLStreamWriter.writeEndElement();
 			xMLStreamWriter.writeStartElement("shortDescription");
-				xMLStreamWriter.writeCharacters(shortDescription);
+				xMLStreamWriter.writeDTD(shortDescription);
 			xMLStreamWriter.writeEndElement();
 			xMLStreamWriter.writeStartElement("description");
-				xMLStreamWriter.writeCharacters(description);
+				xMLStreamWriter.writeDTD(description);
 			xMLStreamWriter.writeEndElement();
 			xMLStreamWriter.writeStartElement("order");
 				xMLStreamWriter.writeCharacters(ORDER);
@@ -358,6 +358,45 @@ public class Room extends Portal implements XML, Constants{
 			      xMLStreamWriter.writeEndElement();
 	         xMLStreamWriter.writeEndElement();
 	          //mediaLink section
+	         //Groups
+	         xMLStreamWriter.writeStartElement("groups");
+	         	xMLStreamWriter.writeStartElement("group");
+	         		xMLStreamWriter.writeStartElement("guid");
+	         			xMLStreamWriter.writeCharacters("");
+	         		xMLStreamWriter.writeEndElement();
+	         		xMLStreamWriter.writeStartElement("name");
+         				xMLStreamWriter.writeCharacters("");
+         			xMLStreamWriter.writeEndElement();
+         			xMLStreamWriter.writeStartElement("title");
+     					xMLStreamWriter.writeCharacters("");
+     				xMLStreamWriter.writeEndElement();
+     				xMLStreamWriter.writeStartElement("language");
+ 						xMLStreamWriter.writeCharacters("");
+ 					xMLStreamWriter.writeEndElement();
+ 					xMLStreamWriter.writeStartElement("keyword");
+						xMLStreamWriter.writeCharacters("");
+					xMLStreamWriter.writeEndElement();
+					xMLStreamWriter.writeStartElement("shortDescription");
+						xMLStreamWriter.writeCharacters("");
+					xMLStreamWriter.writeEndElement();
+					xMLStreamWriter.writeStartElement("description");
+						xMLStreamWriter.writeCharacters("");
+					xMLStreamWriter.writeEndElement();
+					xMLStreamWriter.writeStartElement("order");
+						xMLStreamWriter.writeCharacters("");
+					xMLStreamWriter.writeEndElement();
+					xMLStreamWriter.writeStartElement("channel");
+						xMLStreamWriter.writeCharacters("");
+					xMLStreamWriter.writeEndElement();
+					xMLStreamWriter.writeStartElement("available");
+						xMLStreamWriter.writeCharacters("");
+					xMLStreamWriter.writeEndElement();
+					xMLStreamWriter.writeStartElement("medialinks");
+						xMLStreamWriter.writeCharacters("");
+					xMLStreamWriter.writeEndElement();
+	         	xMLStreamWriter.writeEndElement();
+			 xMLStreamWriter.writeEndElement();
+	         //Fin de groups
 			
 			
 		xMLStreamWriter.writeEndElement();
